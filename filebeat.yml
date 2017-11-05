@@ -1,0 +1,16 @@
+filebeat:
+  prospectors:
+   - input_type: log
+     paths:
+       - /var/log/syslog
+       - /var/log/auth.log
+     document_type: syslog
+   - input_type: log
+     paths:
+       - "/var/log/nginx/*.log"
+     document_type: nginx
+output:
+  logstash:
+    enabled: true
+    hosts: ["172.16.0.2:5044"]
+    index: logstash

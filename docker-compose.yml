@@ -1,0 +1,102 @@
+version: '2'
+
+services:
+  elk:
+    container_name: elk
+    image: sebp/elk:latest
+    restart: always
+    ports:
+     - "9200:9200"
+     - "5601:5601"
+     - "5044:5044"
+    volumes:
+     - elk-data:/var/lib/elasticsearch
+    networks:
+      bridge:
+        ipv4_address: 172.16.0.2
+
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    restart: always
+    ports:
+     - "80:80"
+    volumes:
+      - $PWD/nginx.conf:/etc/nginx/nginx.conf:ro
+      - $PWD/nginx-logs:/var/log/nginx
+    networks:
+      bridge:
+        ipv4_address: 172.16.0.3
+      private:
+        ipv4_address: 192.168.0.2
+
+  web1:
+    container_name: web_node1
+    image: webapp:latest
+    restart: always
+    networks:
+      private:
+        ipv4_address: 192.168.0.3
+
+  web2:
+    container_name: web_node2
+    image: webapp:latest
+    restart: always
+    networks:
+      private:
+        ipv4_address: 192.168.0.4
+
+  filebeat:
+    container_name: filebeat
+    image: docker.elastic.co/beats/filebeat:5.6.3
+    restart: always
+    volumes:
+      - $PWD/filebeat.yml:/usr/share/filebeat/filebeat.yml
+    volumes_from:
+      - nginx
+    networks:
+      bridge:
+        ipv4_address: 172.16.0.4
+
+  jenkins:
+    container_name: jenkins
+    image: jenkins/jenkins:lts
+    restart: always
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - $PWD/jenkins_home:/var/jenkins_home
+    networks:
+      bridge:
+        ipv4_address: 172.16.0.5
+
+  registry:
+    container_name: registry
+    image: registry
+    restart: always
+    ports:
+      - "5000:5000"
+    volumes:
+      - $PWD/registry:/var/lib/registry
+    networks:
+      bridge:
+        ipv4_address: 172.16.0.6
+
+networks:
+  private:
+    driver: "bridge"
+    ipam:
+     config:
+       - subnet: 192.168.0.0/24
+         gateway: 192.168.0.1
+  bridge:
+    driver: "bridge"
+    ipam:
+     config:
+       - subnet: 172.16.0.0/16
+         gateway: 172.16.0.1
+
+volumes:
+  elk-data:
+
