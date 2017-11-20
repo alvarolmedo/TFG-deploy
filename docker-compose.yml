@@ -1,19 +1,6 @@
 version: '2'
 
 services:
-  elk:
-    container_name: elk
-    image: sebp/elk:latest
-    restart: always
-    ports:
-     - "9200:9200"
-     - "5601:5601"
-     - "5044:5044"
-    volumes:
-     - elk-data:/var/lib/elasticsearch
-    networks:
-      bridge:
-        ipv4_address: 172.16.0.2
 
   nginx:
     container_name: nginx
@@ -48,7 +35,7 @@ services:
 
   filebeat:
     container_name: filebeat
-    image: docker.elastic.co/beats/filebeat:5.6.3
+    image: filebeat-logzio
     restart: always
     volumes:
       - $PWD/filebeat.yml:/usr/share/filebeat/filebeat.yml
@@ -60,15 +47,15 @@ services:
 
   jenkins:
     container_name: jenkins
-    image: jenkins/jenkins:lts
+    image: jenkinsuoc
     restart: always
     ports:
       - "8080:8080"
       - "50000:50000"
     volumes:
       - $PWD/jenkins_home:/var/jenkins_home
-      - /usr/bin/docker:/usr/bin/docker
       - /var/run/docker.sock:/var/run/docker.sock
+    privileged: true
     networks:
       bridge:
         ipv4_address: 172.16.0.5
@@ -99,6 +86,4 @@ networks:
        - subnet: 172.16.0.0/16
          gateway: 172.16.0.1
 
-volumes:
-  elk-data:
 
