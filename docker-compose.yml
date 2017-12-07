@@ -35,7 +35,7 @@ services:
 
   filebeat:
     container_name: filebeat
-    image: filebeat-logzio
+    image: filebeat
     restart: always
     volumes:
       - $PWD/filebeat.yml:/usr/share/filebeat/filebeat.yml
