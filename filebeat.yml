@@ -1,11 +1,13 @@
 filebeat:
   prospectors:
-    - input_type: log
-      paths:
-        - "/var/log/nginx/*.log"
-      encoding: utf-8
-      ignore_older: 3h
+        -
+            paths:
+                - "/var/log/nginx/*.log"
+            document_type: nginx
 ############################# Output ##########################################
 output:
   logstash:
-    hosts: ["172.16.0.1:5044"]
+    hosts: ["172.16.0.1:5000"]
+    template.name: "filebeat"
+    template.path: "filebeat.template.json"
+    template.overwrite: false
