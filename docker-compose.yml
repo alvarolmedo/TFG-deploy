@@ -4,7 +4,7 @@ services:
 
   jenkins:
     container_name: jenkins
-    image: registryuoc:5050/jenkinsuoc
+    image: jenkinsuoc:latest
     restart: always
     ports:
       - "8080:8080"
