@@ -2,6 +2,7 @@ FROM jenkins/jenkins:lts
 
 # Installing docker via apt
 USER root
+RUN groupadd -g 135 docker
 RUN apt-get update && apt-get install -y apt-transport-https ca-certificates wget software-properties-common sudo
 RUN wget https://download.docker.com/linux/debian/gpg 
 RUN echo "jenkins ALL=(ALL:ALL) NOPASSWD:ALL" | tee -a /etc/sudoers
