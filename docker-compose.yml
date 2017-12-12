@@ -14,8 +14,8 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     privileged: true
     networks:
-      bridge:
-        ipv4_address: 172.16.0.5
+      oam:
+        ipv4_address: 172.16.0.3
 
   registry:
     container_name: registry
@@ -26,11 +26,11 @@ services:
     volumes:
       - $PWD/registry:/var/lib/registry
     networks:
-      bridge:
-        ipv4_address: 172.16.0.6
+      oam:
+        ipv4_address: 172.16.0.2
 
 networks:
-  bridge:
+  oam:
     driver: "bridge"
     ipam:
      config:
