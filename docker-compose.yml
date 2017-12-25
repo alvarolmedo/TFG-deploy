@@ -18,7 +18,7 @@ services:
         ipv4_address: 172.16.0.3
 
   registry:
-    container_name: registry
+    container_name: registryuoc
     image: registry
     restart: always
     ports:
