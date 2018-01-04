@@ -10,7 +10,7 @@ services:
       - "8080:8080"
       - "50000:50000"
     volumes:
-      - $PWD/jenkins_home:/var/jenkins_home
+      - ./jenkins_home:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
     privileged: true
     networks:
@@ -24,7 +24,7 @@ services:
     ports:
       - "5050:5000"
     volumes:
-      - $PWD/registry:/var/lib/registry
+      - ./registry:/var/lib/registry
     networks:
       oam:
         ipv4_address: 172.16.0.2
