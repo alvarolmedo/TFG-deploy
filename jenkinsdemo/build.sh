@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export IMAGE="jenkinsuoc"
+export IMAGE="jenkinsdemo"
 export TAG="latest"
 
 docker build -t ${IMAGE}:${TAG} ./
